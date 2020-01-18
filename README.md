@@ -1,0 +1,2 @@
+# warranty
+Brief Description- Warranty claim data set of Electronics Company was considered. We analyse the data and check for the duplicate values and removed them. Replace the missing values with median imputation. The dataset was imbalanced; to overcome it up sampling and down sampling of majority and minority class was done. Finally model was built using Random Forest (up sampling) algorithm. The accuracy of the model was 96%. Model was deployed using Flask.
