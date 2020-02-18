@@ -1,7 +1,7 @@
 # warranty
 Objective- the main aim of this project is to find whether the claim by the customers to the electronics company is fraud or genuine. 
 
-Methods & Algorithms- Random forest (up sampling) algorithm is used to build the model.
+Methods & Algorithms- Random forest (over sampling) algorithm is used to build the model.
 
 Tools- Python 3
 
