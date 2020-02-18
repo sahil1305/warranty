@@ -94,7 +94,7 @@ claims.loc[(claims.State == "Andhra Pradesh") | (claims.State == "Karnataka") |
         (claims.State == "Kerala")  | (claims.State == "Tamilnadu") | 
         (claims.State == "Telengana"), "Region"] = "South"
         
- claims.loc[(claims.State == "Assam") | 
+claims.loc[(claims.State == "Assam") | 
         (claims.State == "Tripura") | (claims.State == "West Bengal"), "Region"] = "East"
 
 claims.loc[(claims.State == "Gujarat"), "Region"] = "West"
@@ -164,34 +164,27 @@ claims2_upsampled = pd.concat([claims2_majority, claims2_minority_upsampled])
 claims2_upsampled.Fraud.value_counts()                                                                                                     
 
 #first making model on the claims2_upsampled data
-x= claims2_upsampled.iloc[:,[0,1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81]]
-y= claims2_upsampled.iloc[:,[10]]
+x= claims2_upsampled.drop(['Fraud'],axis=1)
+y= claims2_upsampled['Fraud']
 
 # Split dataset into training set and test set
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=123) # 70% training and 30% test
 
+#decesion tree model
 # Create Decision Tree classifer object
 clf = DecisionTreeClassifier()
-
 # Train Decision Tree Classifer
 clf = clf.fit(x_train,y_train)
-
 #Predict the response for test dataset
 y_pred = clf.predict(x_test)
-
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-
-#predict the response for train dataset
-y_pred1 = clf.predict(x_train)
-
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_train, y_pred1))
-
-print ('\n clasification report:\n', metrics.classification_report(y_test,y_pred))
-
-#confusion matrix
-print ('\n confussion matrix:\n',metrics.confusion_matrix(y_test,y_pred))
+#accuracy score
+clf.score(x_test,y_test)*100 #92.7% accuracy
+#classification report and confusionn matrix
+from sklearn.metrics import classification_report, confusion_matrix 
+print('## Classification report of Decision Tree ##')
+print(classification_report(y_test,y_pred))
+print('## Confusion matrix of Decision Tree ##')
+print(confusion_matrix(y_test,y_pred))
 
 
 #downsample majority class
@@ -204,39 +197,24 @@ claims2_downsampled = pd.concat([claims2_minority,claims2_majority_downsampled])
 claims2_downsampled.Fraud.value_counts()
 
 #let's make the model on claims2_downsampled data
-x1= claims2_downsampled.iloc[:,[0,1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81]]
-y1= claims2_downsampled.iloc[:,[10]]
+x1= claims2_downsampled.drop(['Fraud'],axis=1)
+y1= claims2_downsampled['Fraud']
 
 # Split dataset into training set and test set
 x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1, test_size=0.3, random_state=123)
 
+#decision tree model
 # Create Decision Tree classifer object
 clf = DecisionTreeClassifier()
-
 # Train Decision Tree Classifer
 clf = clf.fit(x1_train,y1_train)
-
 #Predict the response for test dataset
 y1_pred = clf.predict(x1_test)
-
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y1_test, y1_pred))
-
-#predict the response for train dataset
-y1_pred1 = clf.predict(x1_train)
-
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y1_train, y1_pred1))
-
-print ('\n clasification report:\n', metrics.classification_report(y1_test,y1_pred))
-
-#confusion matrix
-print ('\n confussion matrix:\n',metrics.confusion_matrix(y1_test,y1_pred))
-
-
+#accuracy score
+clf.score(x1_test,y1_test)*100 #52.3% accuracy
 
 #from the above upsampled and downsampled we conclude that upsampled data 
-#is giving good accuracy of 94% and downsampled data is giving accuracy of 57% while 
+#is giving good accuracy of 92.7% and downsampled data is giving accuracy of 52.3% while 
 #building the decision tree classifier model 
 #So, we finaize the upsampled data for model building.
 
@@ -248,28 +226,43 @@ logreg = LogisticRegression()
 logreg= logreg.fit(x_train, y_train)
 #Predict the response for test dataset
 y_pred = logreg.predict(x_test)
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-#predict the response for train dataset
-y_pred1 = logreg.predict(x_train)
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_train, y_pred1))
-print ('\n clasification report:\n', metrics.classification_report(y_test,y_pred))
-#confusion matrix
-print ('\n confussion matrix:\n',metrics.confusion_matrix(y_test,y_pred))
+#accuracy score
+logreg.score(x_test,y_test)*100 #65.9% accuracy
 
+#S.V.M Model
+from sklearn.svm import SVC
+#creating support vector classification object
+svc = SVC()
+#train support vector classifier
+svc = svc.fit(x_train, y_train)
+#predict the response for test dataset
+y_pred = svc.predict(x_test)
+#accuracy score
+svc.score(x_test, y_test)*100 #66.4% accuraccy
+
+#K-nn model
+from sklearn.neighbors import KNeighborsClassifier
+#creating knn classification object
+knn = KNeighborsClassifier(n_neighbors = 11)
+#train the knn classifier
+knn.fit(x_train, y_train)
+#predict the response for test dataset
+y_pred = knn.predict(x_test)
+#accuracy score
+knn.score(x_test,y_test)*100 #81.4% accuracy
 
 #Random Forest model
+#creating random forest classifier object
 random_forest = RandomForestClassifier()
+#train random forest classifier
 random_forest= random_forest.fit(x_train, y_train)
+#predict the response for test dataset
 y_pred = random_forest.predict(x_test)
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-#predict the response for train dataset
-y_pred1 = random_forest.predict(x_train)
-#Model Accuracy, how often is the classifier correct?
-print("Accuracy:",metrics.accuracy_score(y_train, y_pred1))
-print ('\n clasification report:\n', metrics.classification_report(y_test,y_pred))
-#confusion matrix
-print ('\n confussion matrix:\n',metrics.confusion_matrix(y_test,y_pred))
-
+#accuracy score
+random_forest.score(x_test,y_test)*100 #96.90% accuracy
+#classification report and confusionn matrix
+from sklearn.metrics import classification_report, confusion_matrix 
+print('## Classification report of Random Forest ##')
+print(classification_report(y_test,y_pred))
+print('## Confusion matrix of Random Forest ##')
+print(confusion_matrix(y_test,y_pred))
