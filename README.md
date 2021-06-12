@@ -5,7 +5,7 @@ Methods & Algorithms- Random forest (over sampling) algorithm is used to build t
 
 Language- Python 
 
-IDE- Jupyter 
+IDE- Jupyter Notebook
 
 Brief Description- Warranty claim data set of Electronics Company was considered. Did Explonatory data analyis to understand the data. Replace the missing values with median imputation. The dataset was imbalanced; to overcome it over sampling of minority class was done using SMOTE. Decision tree and random forest algorithm gave the best accuracy of 97.32% among all the algorithms. 
 
