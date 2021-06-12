@@ -3,10 +3,10 @@ Objective- the main aim of this project is to find whether the claim by the cust
 
 Methods & Algorithms- Random forest (over sampling) algorithm is used to build the model.
 
-Tools- Python 3
+Language- Python 
 
-IDE- Spyder
+IDE- Jupyter 
 
-Brief Description- Warranty claim data set of Electronics Company was considered. We analyse the data and check for the duplicate values and removed them. Replace the missing values with median imputation. The dataset was imbalanced; to overcome it up sampling and down sampling of majority and minority class was done. Finally model was built using Random Forest (up sampling) algorithm. The accuracy of the model was 96%. Model was deployed using Flask.
+Brief Description- Warranty claim data set of Electronics Company was considered. Did Explonatory data analyis to understand the data. Replace the missing values with median imputation. The dataset was imbalanced; to overcome it over sampling of minority class was done using SMOTE. Decision tree and random forest algorithm gave the best accuracy of 97.32% among all the algorithms. 
 
-Business Benefits- the business benefit of the project is to check the fraud claims done by the customers.
+Business Benefits- When an item is sold, then what is the probability that customer would file for warranty and to understand important factors associated with them. This is the problem facing by the organizations. To understand whether the claim is a genuine claim or a fraudulent claim based on different independent variables.
